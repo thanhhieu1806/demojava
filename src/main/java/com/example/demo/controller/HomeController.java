@@ -11,8 +11,11 @@ import java.util.Map;
 @RestController
 public class HomeController {
 
-    @GetMapping("/home")
+    @GetMapping("/api/home")
     public String home(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "Ban chua dang nhap";
+        }
         String username = authentication.getName();
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(granted -> granted.getAuthority().equals("ROLE_ADMIN"));
@@ -22,7 +25,7 @@ public class HomeController {
         return "xin chào " + username;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/api/admin")
     public String adminHome() {
         return "hello world - Admin Dashboard";
     }

@@ -11,7 +11,11 @@ public class ClientForwardController {
             "/{path:[^\\.]*}",
             "/**/{path:[^\\.]*}"
     })
-    public String forward() {
+    public String forward(jakarta.servlet.http.HttpServletRequest request) {
+        String path = request.getRequestURI();
+        if (path.startsWith("/api") || path.startsWith("/logout") || path.startsWith("/static")) {
+            return null; // Trả về null để Spring tiếp tục tìm handler khác (như AuthController)
+        }
         return "forward:/index.html";
     }
 }

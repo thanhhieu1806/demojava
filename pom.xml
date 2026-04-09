@@ -87,6 +87,13 @@
         <scope>runtime</scope>
     </dependency>
 
+    <!-- PostgreSQL Driver (for production deployments) -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+
     <!-- Logging (SLF4J + Logback) -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -102,6 +109,7 @@
 
 </dependencies>
     <build>
+        <finalName>ROOT</finalName>
         <plugins>
 
             <!-- Spring Boot plugin -->
@@ -164,7 +172,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -220,5 +228,4 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
-
 </project>

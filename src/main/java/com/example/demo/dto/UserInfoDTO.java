@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -13,7 +14,11 @@ public record UserInfoDTO(
         boolean authenticated
 ) {
     public static UserInfoDTO fromAuthentication(Authentication authentication){
-        if(authentication ==null || !authentication.isAuthenticated()){
+        if(authentication == null
+                || !authentication.isAuthenticated()
+                || authentication instanceof AnonymousAuthenticationToken
+                || authentication.getAuthorities().stream()
+                    .anyMatch(a -> "ROLE_ANONYMOUS".equals(a.getAuthority()))){
             return new UserInfoDTO(null,null, Set.of(),false);
         }
         String role = authentication.getAuthorities().stream()
